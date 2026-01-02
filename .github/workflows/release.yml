@@ -1,0 +1,26 @@
+name: Create Supreme Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers on v1.5, v1.6, etc.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Zip Extension
+        run: |
+          zip -r web-god-mode-supreme.zip src/ icon/ LICENSE README.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: web-god-mode-supreme.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
