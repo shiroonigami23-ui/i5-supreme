@@ -16,6 +16,21 @@
 
 ---
 
+### 🛠️ Installation Guide
+#### For Users (Easiest)
+1. Go to the **[Releases](https://github.com/shiroonigami23-ui/i5-supreme/releases)** page.
+2. Download the latest `web-god-mode-supreme.zip`.
+3. Extract the ZIP file to a folder on your computer.
+4. Open your browser and go to `brave://extensions` or `chrome://extensions`.
+5. Enable **Developer Mode** (toggle in the top right).
+6. Click **Load unpacked** and select the **src** folder from your extracted files.
+
+#### For Developers
+1. Clone this repo: `git clone https://github.com/shiroonigami23-ui/i5-supreme.git`
+2. Follow steps 4-6 above, selecting the `src` folder within the cloned directory.
+
+---
+
 ### ⚡ Supreme Features
 - **🚫 Paywall Vaporizer:** Automatically detects and deletes subscription overlays.
 - **🔓 Content Liberator:** Removes CSS blurs and unhides restricted article text.
@@ -23,15 +38,6 @@
 - **⏩ Video Overdrive:** Hold `S` to speed through any video at 10x speed.
 - **👻 Form Ghost:** Auto-fills junk data into sign-up walls to get you straight to the content.
 - **⚛️ Atomic Nuke:** Press `Alt + X` to manually delete any stubborn element under your mouse.
-
----
-
-### 🛠️ Installation (Sideloading)
-1. **Download** the latest [Release ZIP](https://github.com/YOUR_USERNAME/web_god_mode/releases).
-2. **Extract** the folder to your computer.
-3. Open **Brave** and navigate to `brave://extensions`.
-4. Enable **Developer Mode** (top right).
-5. Click **Load Unpacked** and select the `src` folder.
 
 ---
 
