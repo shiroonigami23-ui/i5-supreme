@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "*://*.doubleclick.net/*", "resourceTypes": ["script", "sub_frame"] }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "*://*.google-analytics.com/*", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 3,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "*://*.amazon-adsystem.com/*", "resourceTypes": ["script"] }
+  }
+]
