@@ -8,6 +8,7 @@
 ---
 
 ### 📂 Navigation
+* [**Changelog**](./CHANGELOG.md) - Version history and updates.
 * [**Manifest**](./src/manifest.json) - The core configuration.
 * [**Supreme Engine**](./src/content.js) - Paywall nuker & copy enforcer.
 * [**Network Rules**](./src/rules.json) - Ad-blocking logic.
