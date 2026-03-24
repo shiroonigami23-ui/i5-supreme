@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to the **Web God Mode: i5 Supreme** extension will be documented in this file.
 
+## [1.7] - 2026-03-25
+### Added
+- Ruby release toolkit with checksum generation (`scripts/build_release.rb`, `scripts/release_checksums.rb`).
+- EXE branding support with project icon (`icon/app.ico` used during OCRA build).
+- Android companion app module and CI APK output (`i5-supreme-android.apk`).
+- Release upload now ships ZIP + EXE + APK + checksums.
+
 ## [1.6] - 2026-03-25
 ### Added
 - Ruby release pipeline using `scripts/release_builder.rb`.

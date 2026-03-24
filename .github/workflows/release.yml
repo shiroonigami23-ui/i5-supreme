@@ -6,10 +6,8 @@ on:
       - "v*"
 
 jobs:
-  build-and-release:
+  build-windows:
     runs-on: windows-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,19 +22,80 @@ jobs:
           gem install rubyzip -v 2.3.2 --no-document
           gem install ocra --no-document
 
-      - name: Build extension zip using Ruby
+      - name: Build release package + checksums using Ruby
         run: |
-          ruby scripts/release_builder.rb --source . --output dist/web-god-mode-supreme.zip
+          ruby scripts/build_release.rb --root .
 
       - name: Build Windows packager exe
         run: |
-          ocra scripts/release_builder.rb --console --output dist/i5-supreme-packager.exe -- --source . --output web-god-mode-supreme.zip
+          ocra scripts/release_builder.rb --console --icon icon/app.ico --output dist/i5-supreme-packager.exe -- --source . --output web-god-mode-supreme.zip
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: |
+            dist/web-god-mode-supreme.zip
+            dist/i5-supreme-packager.exe
+            dist/checksums.txt
+
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build APK
+        run: |
+          gradle -p android :app:assembleDebug
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/i5-supreme-android.apk
+
+      - name: Upload Android artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-artifact
+          path: dist/i5-supreme-android.apk
+
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs:
+      - build-windows
+      - build-android
+    steps:
+      - name: Download Windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-artifacts
+          path: dist/windows
+
+      - name: Download Android artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: android-artifact
+          path: dist/android
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/web-god-mode-supreme.zip
-            dist/i5-supreme-packager.exe
+            dist/windows/web-god-mode-supreme.zip
+            dist/windows/i5-supreme-packager.exe
+            dist/windows/checksums.txt
+            dist/android/i5-supreme-android.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

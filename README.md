@@ -1,5 +1,5 @@
 # 🔱 Web God Mode: i5 Supreme Edition
-![Version](https://img.shields.io/badge/version-1.6-orange)
+![Version](https://img.shields.io/badge/version-1.7-orange)
 ![License](https://img.shields.io/badge/license-GPL--3.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Brave%20%7C%20Chrome-red)
 
@@ -14,6 +14,8 @@
 * [**Network Rules**](./src/rules.json) - Ad-blocking logic.
 * [**Background Service**](./src/background.js) - Stealth & Spoofing.
 * [**Ruby Release Builder**](./scripts/release_builder.rb) - ZIP/EXE packaging helper.
+* [**Ruby Release Toolkit**](./scripts/build_release.rb) - ZIP + checksum orchestration.
+* [**Android Companion**](./android) - APK output pipeline.
 
 ---
 
@@ -28,6 +30,7 @@
 
 Optional tooling download:
 - `i5-supreme-packager.exe` builds the ZIP package on Windows using the embedded Ruby release builder.
+- `i5-supreme-android.apk` is an Android companion app with quick access to releases.
 
 #### For Developers
 1. Clone this repo: `git clone https://github.com/shiroonigami23-ui/i5-supreme.git`
@@ -35,7 +38,7 @@ Optional tooling download:
 3. For local release packaging with Ruby:
    - Install Ruby 3.1+
    - `gem install rubyzip`
-   - `ruby scripts/release_builder.rb --source . --output dist/web-god-mode-supreme.zip`
+   - `ruby scripts/build_release.rb --root .`
 
 ---
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">i5 Supreme</string>
+    <string name="title_text">i5 Supreme Android</string>
+    <string name="description_text">Companion app for release downloads and project updates.</string>
+    <string name="open_releases">Open GitHub Releases</string>
+</resources>
