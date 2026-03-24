@@ -1,26 +1,42 @@
-name: Create Supreme Release
+name: Build Supreme Release
 
 on:
   push:
     tags:
-      - 'v*' # Triggers on v1.5, v1.6, etc.
+      - "v*"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-release:
+    runs-on: windows-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Zip Extension
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+
+      - name: Install Ruby gems
         run: |
-          zip -r web-god-mode-supreme.zip src/ icon/ LICENSE README.md
+          gem install rubyzip -v 2.3.2 --no-document
+          gem install ocra --no-document
+
+      - name: Build extension zip using Ruby
+        run: |
+          ruby scripts/release_builder.rb --source . --output dist/web-god-mode-supreme.zip
+
+      - name: Build Windows packager exe
+        run: |
+          ocra scripts/release_builder.rb --console --output dist/i5-supreme-packager.exe -- --source . --output web-god-mode-supreme.zip
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: web-god-mode-supreme.zip
+          files: |
+            dist/web-god-mode-supreme.zip
+            dist/i5-supreme-packager.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

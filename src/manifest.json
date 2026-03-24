@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Web God Mode: i5 Supreme",
-  "version": "1.5",
-  "description": "Bypass paywalls, enable copy-paste, and nuke annoying popups.",
+  "version": "1.6",
+  "description": "Bypass paywalls, restore copy/paste, remove overlays, and fast-forward distraction.",
+  "homepage_url": "https://github.com/shiroonigami23-ui/i5-supreme",
   "icons": {
     "16": "icon/icon16.png",
     "48": "icon/icon48.png",
