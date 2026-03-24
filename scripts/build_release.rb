@@ -3,19 +3,12 @@
 
 require "optparse"
 require "pathname"
-
-ROOT = File.expand_path("..", __dir__)
-
-def run_step(command)
-  puts ">> #{command}"
-  ok = system(command)
-  raise "Failed: #{command}" unless ok
-end
+require_relative "../lib/i5_supreme"
 
 def parse_options(argv)
   options = {
-    root: ROOT,
-    zip_output: File.join(ROOT, "dist", "web-god-mode-supreme.zip")
+    root: I5Supreme::Paths.root,
+    zip_output: File.join(I5Supreme::Paths.root, "dist", "web-god-mode-supreme.zip")
   }
 
   OptionParser.new do |opts|
@@ -30,10 +23,16 @@ end
 
 if $PROGRAM_NAME == __FILE__
   options = parse_options(ARGV)
-  builder = File.join(options[:root], "scripts", "release_builder.rb")
-  checksums = File.join(options[:root], "scripts", "release_checksums.rb")
+  pipeline = I5Supreme::ReleasePipeline.new(root: options[:root])
+  zip_path = pipeline.build_zip(output: options[:zip_output])
+  checksums_path = pipeline.write_checksums(output: File.join(options[:root], "dist", "checksums.txt"))
+  manifest_path = pipeline.write_release_manifest(
+    output: File.join(options[:root], "dist", "release_manifest.json"),
+    artifacts: [zip_path]
+  )
 
-  run_step(%(ruby "#{builder}" --source "#{options[:root]}" --output "#{options[:zip_output]}"))
-  run_step(%(ruby "#{checksums}" --root "#{options[:root]}"))
+  puts "Built package: #{zip_path}"
+  puts "Wrote checksums: #{checksums_path}"
+  puts "Wrote release manifest: #{manifest_path}"
   puts "Release files are ready in #{File.dirname(options[:zip_output])}"
 end

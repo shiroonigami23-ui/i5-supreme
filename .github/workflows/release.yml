@@ -24,7 +24,7 @@ jobs:
 
       - name: Build release package + checksums using Ruby
         run: |
-          ruby scripts/build_release.rb --root .
+          ruby bin/i5-supreme release:build --root . --zip dist/web-god-mode-supreme.zip
 
       - name: Build Windows packager exe
         run: |

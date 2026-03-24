@@ -1,6 +1,19 @@
 # Changelog
 All notable changes to the **Web God Mode: i5 Supreme** extension will be documented in this file.
 
+## [1.8] - 2026-03-25
+### Added
+- Ruby core library in `lib/i5_supreme`:
+  - `ManifestManager` for manifest edits.
+  - `RuleAuditor` for rules validation.
+  - `ReleasePipeline` for zip/checksum/release-manifest generation.
+  - `CLI` command interface in `bin/i5-supreme`.
+- Ruby test suite (`test/*_test.rb`) and `Rakefile`.
+
+### Changed
+- Release workflow now uses the Ruby CLI entrypoint (`ruby bin/i5-supreme release:build ...`) for packaging.
+- Extension version bumped to `1.8`.
+
 ## [1.7] - 2026-03-25
 ### Added
 - Ruby release toolkit with checksum generation (`scripts/build_release.rb`, `scripts/release_checksums.rb`).

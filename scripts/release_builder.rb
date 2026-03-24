@@ -1,66 +1,15 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "fileutils"
 require "optparse"
 require "pathname"
-
-begin
-  require "zip"
-rescue LoadError
-  warn "Missing gem: rubyzip. Install with `gem install rubyzip`."
-  exit 1
-end
-
-DEFAULT_INCLUDES = %w[src icon LICENSE README.md CHANGELOG.md].freeze
-
-def collect_files(root, includes)
-  files = []
-
-  includes.each do |entry|
-    full = File.join(root, entry)
-    next unless File.exist?(full)
-
-    if File.directory?(full)
-      Dir.glob(File.join(full, "**", "*"), File::FNM_DOTMATCH).each do |candidate|
-        next if File.directory?(candidate)
-        next if File.basename(candidate).start_with?(".")
-
-        files << candidate
-      end
-    else
-      files << full
-    end
-  end
-
-  files.uniq.sort
-end
-
-def relative_path(path, root)
-  Pathname.new(path).relative_path_from(Pathname.new(root)).to_s.tr("\\", "/")
-end
-
-def build_zip(root:, output:, includes:)
-  files = collect_files(root, includes)
-  raise "No package files found. Expected any of: #{includes.join(", ")}" if files.empty?
-
-  FileUtils.mkdir_p(File.dirname(output))
-  FileUtils.rm_f(output)
-
-  Zip::File.open(output, Zip::File::CREATE) do |zip|
-    files.each do |file|
-      zip.add(relative_path(file, root), file)
-    end
-  end
-
-  output
-end
+require_relative "../lib/i5_supreme"
 
 def parse_options(argv)
   options = {
-    source: File.expand_path("..", __dir__),
+    source: I5Supreme::Paths.root,
     output: nil,
-    includes: DEFAULT_INCLUDES.dup
+    includes: I5Supreme::ReleasePipeline::DEFAULT_INCLUDES.dup
   }
 
   parser = OptionParser.new do |opts|
@@ -78,6 +27,6 @@ end
 
 if $PROGRAM_NAME == __FILE__
   options = parse_options(ARGV)
-  zip_path = build_zip(root: options[:source], output: options[:output], includes: options[:includes])
+  zip_path = I5Supreme::ReleasePipeline.new(root: options[:source], includes: options[:includes]).build_zip(output: options[:output])
   puts "Built package: #{zip_path}"
 end
