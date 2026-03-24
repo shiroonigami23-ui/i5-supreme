@@ -71,8 +71,8 @@ module I5Supreme
     def release_build
       options = parse_flags(
         "Usage: i5-supreme release:build [--root PATH] [--zip dist/file.zip]",
-        root: false,
-        zip: false
+        root: true,
+        zip: true
       )
       root = options[:root] || I5Supreme::Paths.root
       zip = options[:zip] || "dist/web-god-mode-supreme.zip"
